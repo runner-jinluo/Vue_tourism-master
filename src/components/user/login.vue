@@ -43,9 +43,9 @@
                 this.$refs['userForm'].validate(valid => {
                     if (valid) {
                         api.login(this.user, function (res) {
-                            if (res.status == 'y') {
-                                $.cookie('userid',res.userid,{path:'/'})
-                                this.$message.success(res.msg)
+                            if (res&&res.email) {
+                                $.cookie('userid',res.email,{path:'/'})
+                                //this.$message.success(res.msg)
                                 this.$router.push({ name: 'Function' })
                             }
                             else {

@@ -11,7 +11,7 @@ import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-default/index.css' //引入样式文件
 Vue.use(ElementUI) //全局使用组件库
 
-global.ApiUrl = 'http://localhost:3000/api/v1/' //全局定义api请求的服务器地址
+global.ApiUrl = 'http://localhost:9090/api/' //全局定义api请求的服务器地址
 global.count = 0
 /* eslint-disable no-new */
 new Vue({

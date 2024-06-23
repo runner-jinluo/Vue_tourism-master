@@ -17,12 +17,10 @@
             }
         },
         created(){
-        /*
             if(!$.cookie('userid')){
                 this.$message('请先登录')
                 this.$router.push({name:'Login'})
             }
-            */
         }
     }
 </script>
