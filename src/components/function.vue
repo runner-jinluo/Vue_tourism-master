@@ -9,7 +9,7 @@
         data(){
             return {
                 list:[
-                    {name:'规划路线',to:'#/Selectoption'},
+                    {name:'筛选路线',to:'#/Selectoption'},
                     {name:'规划路线',to:'#/plan'},
                     {name:'查看路线',to:'#/check'},
                     {name:'个人信息',to:'#/personal'}

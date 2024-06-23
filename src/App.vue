@@ -58,7 +58,7 @@ body,html{
 }
 #app{
   height: 100%;
-  background-color: #FFE7BA;
+  background-color: #E0F7FA;
 }
 ul,li{
   margin: 0;
@@ -110,7 +110,7 @@ a{
   color:#666;
 }
 .nav .container ul li:hover{
-  background-color:rgba(255, 228, 196, 1);
+  background-color:rgba(200, 248, 241);
 }
 .nav .container ul li:active{
   position:relative;
@@ -133,7 +133,7 @@ input.el-input__inner{
     width:100%;
     height: 60px;
     font-size: 20px;
-    // border-radius: 15px;
+    border-radius: 15px;
     text-align: center;
     color:#666;
 
