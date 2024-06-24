@@ -32,6 +32,7 @@
         </div>
         <div class="query-div3 right">
             <el-row justify="space-between" type="flex">
+               <el-form>
                     <div class="query-input">
                         <input class="input glass" placeholder="请输入关键词" v-model="query.key"></input>
                       <button id="calc" class="glass btn plan-btn" @click="goToSavedSearchPage()">开始规划</button>

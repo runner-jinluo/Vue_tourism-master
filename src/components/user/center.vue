@@ -3,7 +3,7 @@
         <div class="glass user-div">
             <h1>email:{{user.email}}</h1>
             <a class="glass light btn check-btn" href="#/check">查看保存的路线数据</a>
-            <a class="glass light btn"  @click="loginout">退出登录</a>
+            <a class="glass light btn"  @click="logout">退出登录</a>
         </div>
     </div>
 </template>
@@ -19,7 +19,7 @@
             if($.cookie('userid')){
                 this.getUser()
             }
-            
+
         },
         methods:{
             getUser:function(){
@@ -27,10 +27,10 @@
                     this.user = data.data
                 }.bind(this))
             },
-            loginout:function(){
-                $.cookie('userid','',{path:'/',expiress:-1})
+            logout:function(){
+                $.cookie('userid','',{path:'/',expires:-1})
                 this.$router.push({name:'Login'})
-                this.$message.success("用户退出登录") 
+                this.$message.success("用户退出登录")
             }
         }
     }

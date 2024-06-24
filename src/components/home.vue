@@ -13,14 +13,56 @@
             <dt>查询路线</dt>
             <dd>对已经规划好的线路进行查询,并显示在地图上查看</dd>
         </div>
-        <a class="glass btn light" href="#/login">去登录</a>
+      <a class="glass btn light " @click="isLogin ? logout():goToLogin() ">{{ isLogin ? '登出' : '去登录' }}
+      </a>
+
     </div>
 </template>
 <script>
-    export default {
-
+import api from '../services/api_user'
+export default {
+  name: 'app',
+  data(){
+    return {
+      isLogin:false
     }
-    
+  },
+  watch:{//监控路由
+    $route:function(){
+      if($.cookie('userid') && $.cookie('userid') != ''){
+        this.isLogin = true;
+      }
+      else{
+        this.isLogin = false;
+      }
+
+      $('a[href="#'+this.$router.currentRoute.fullPath+'"]').parent().addClass('active')
+        .siblings().removeClass('active')
+    }
+  },
+  created(){
+    // console.log($.cookie('userid'))
+    if($.cookie('userid')){
+      this.isLogin = true;
+    }
+  },
+
+
+
+  methods:{
+    goToLogin() {
+      // 前往登录页面
+      console.log('前往登录页面');
+      // 在这里执行跳转逻辑，例如使用路由导航
+       this.$router.push('/login');
+    },
+    logout:function(){
+      $.cookie('userid','',{path:'/',expires:-1})
+      this.$router.push({name:'Login'})
+      this.$message.success("用户退出登录")
+    }
+  }
+}
 </script>
 <style scoped>
 h1{
@@ -30,7 +72,7 @@ h1{
     margin-top:50px;
     /*background-color:white;*/
     padding:24px;
-    
+
 }
 dt{
     font-size: 24px;

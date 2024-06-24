@@ -40,6 +40,36 @@ export default {
       }
     });
   },
+  saveuserinfo(data, callback) {
+    $.ajax({
+      url: `${global.ApiUrl}users/saveinfo`,
+      data: JSON.stringify(data),
+      method: 'POST',
+      contentType: 'application/json',
+      success: function(res) {
+        callback(res);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  },
+  getuserinfo(email, callback) {
+    $.ajax({
+      url: `${global.ApiUrl}users/getinfo`,
+      method: "GET",
+      success: function (res) {
+        // 处理成功响应的数据
+        callback(res);
+        console.log("User info retrieved:",res);
+        // 在这里你可以更新你的应用状态或者执行其他操作
+      },
+      error: function (err) {
+        console.error("Error fetching user info:", err);
+        // 处理错误情况，例如显示错误提示或者重试
+      }
+    });
+  },
   getDataById(id, callback) {
     $.ajax({
       url: `${global.ApiUrl}users/${id}`,
