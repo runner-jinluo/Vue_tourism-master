@@ -4,11 +4,11 @@
     <div v-if="showSavedData">
 
       <div>
-        <p>性别：{{ formData.gender }}</p>
+        <p>性别：{{ formData.sex }}</p>
         <p>年龄：{{ formData.age }}</p>
         <p>姓名：{{ formData.name }}</p>
-        <p>联系方式：{{ formData.contact }}</p>
-        <p>旅游爱好：{{ formData.hobbies}}</p>
+        <p>联系方式：{{ formData.phoneNumber }}</p>
+        <p>旅游爱好：{{ formData.interest}}</p>
         <!-- 其他表单字段... -->
       </div>
       <a class="glass light btn register-btn" @click="modify()">去修改</a>
@@ -16,8 +16,8 @@
       <div v-if="!showSavedData">
         <el-form :model="formData" :rules="rules" ref="myForm" label-width="120px">
           <el-form-item label="性别">
-            <el-radio v-model="formData.gender" label="male">男</el-radio>
-            <el-radio v-model="formData.gender" label="female">女</el-radio>
+            <el-radio v-model="formData.sex" label="male">男</el-radio>
+            <el-radio v-model="formData.sex" label="female">女</el-radio>
           </el-form-item>
           <el-form-item label="年龄段">
             <el-radio v-model="formData.age" label="young">青年</el-radio>
@@ -28,12 +28,12 @@
             <el-input v-model="formData.name"></el-input>
           </el-form-item>
           <el-form-item label="联系方式" prop="contact">
-            <el-input v-model="formData.contact"></el-input>
+            <el-input v-model="formData.phoneNumber"></el-input>
           </el-form-item>
           <div class="centered-checkbox">
           <el-form-item label="旅游爱好">
 
-            <el-checkbox-group v-model="formData.hobbies">
+            <el-checkbox-group v-model="formData.interest">
               <el-checkbox label="hiking">徒步旅行</el-checkbox>
               <el-checkbox label="culture">文化探索</el-checkbox>
               <el-checkbox label="food">美食之旅</el-checkbox>
@@ -63,11 +63,11 @@ export default {
   data() {
     return {
       formData: {
-        gender: '', // 性别
+        sex: '', // 性别
         age: '', // 年龄段
         name: '', // 姓名
-        contact: '',// 联系方式
-        hobbies: [] // 存储选中的爱好
+        phoneNumber: '',// 联系方式
+        interest: [] // 存储选中的爱好
       },
       showSavedData: true ,// 控制显示之前输入的数据
       rules: {
@@ -83,7 +83,7 @@ export default {
       this.showSavedData=true;
       this.$refs['myForm'].validate(valid => {
         if (valid) {
-          api.saveuserinfo(this.formData, function (res) {
+          api.saveuserinfo($.cookie('userid'),this.formData, function (res) {
             if (res.status == 'y') {
               this.$message.success("用户修改成功")
               this.$router.push({ name: 'Function' })
