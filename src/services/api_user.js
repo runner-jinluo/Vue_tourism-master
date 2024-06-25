@@ -42,7 +42,7 @@ export default {
   },
   saveuserinfo(email,data, callback) {
     $.ajax({
-      url: `${global.ApiUrl}users/${id}`,
+      url: `${global.ApiUrl}users/update/${id}`,
       data: JSON.stringify(data),
       method: 'POST',
       contentType: 'application/json',
