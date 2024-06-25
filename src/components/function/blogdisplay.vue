@@ -45,6 +45,11 @@
         created() {
           this.fetchTravelLogs();
           this.fetchTravelGuides();
+            if(!$.cookie('userid')){
+                this.$message('请先登录')
+                this.$router.push({name:'Login'})
+            }
+
         },
         methods: {
           fetchTravelLogs() {

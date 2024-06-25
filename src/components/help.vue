@@ -22,7 +22,7 @@
       </div>
     </div>
   </template>
-  
+
   <script>
   export default {
     methods: {
@@ -30,40 +30,46 @@
         // 处理发表按钮点击事件的方法
         // 在这里编写将内容上传服务器等逻辑
       }
+    },
+    created(){
+      if(!$.cookie('userid')){
+        this.$message('请先登录')
+        this.$router.push({name:'Login'})
+      }
     }
   }
+
   </script>
-  
+
   <style scoped>
   #travel-share {
     text-align: center;
   }
-  
+
   .content-upload {
     margin-top: 20px;
   }
-  
+
   textarea {
     width: 80%;
     margin-bottom: 10px;
   }
-  
+
   input[type="file"] {
     margin-bottom: 10px;
   }
-  
+
   button {
     padding: 8px 16px;
   }
-  
+
   .travel-logs {
     margin-top: 20px;
   }
-  
+
   .log-item {
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 10px;
   }
   </style>
-  

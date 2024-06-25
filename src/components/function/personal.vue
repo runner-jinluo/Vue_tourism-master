@@ -16,13 +16,13 @@
       <div v-if="!showSavedData">
         <el-form :model="formData" :rules="rules" ref="myForm" label-width="120px">
           <el-form-item label="性别">
-            <el-radio v-model="formData.sex" label="male">男</el-radio>
-            <el-radio v-model="formData.sex" label="female">女</el-radio>
+            <el-radio v-model="formData.sex" label="男">男</el-radio>
+            <el-radio v-model="formData.sex" label="女">女</el-radio>
           </el-form-item>
           <el-form-item label="年龄段">
-            <el-radio v-model="formData.age" label="young">青年</el-radio>
-            <el-radio v-model="formData.age" label="middle">中年</el-radio>
-            <el-radio v-model="formData.age" label="old">老年</el-radio>
+            <el-radio v-model="formData.age" label="1">青年</el-radio>
+            <el-radio v-model="formData.age" label="2">中年</el-radio>
+            <el-radio v-model="formData.age" label="3">老年</el-radio>
           </el-form-item>
           <el-form-item label="姓名">
             <el-input v-model="formData.name"></el-input>
@@ -61,6 +61,7 @@ import api from "../../services/api_user";
 
 export default {
   data() {
+
     return {
       formData: {
         sex: '', // 性别
@@ -69,6 +70,7 @@ export default {
         phoneNumber: '',// 联系方式
         interest: [] // 存储选中的爱好
       },
+
       showSavedData: true ,// 控制显示之前输入的数据
       rules: {
         contact: [
@@ -78,7 +80,24 @@ export default {
       }
     };
   },
+  created() {
+    if($.cookie('userid')){
+      this.fetchSavedData(); // 调用你的初始化方法
+
+    }
+
+  },
   methods: {
+
+    fetchSavedData:function(){
+
+      api.getuserinfo($.cookie('userid'), function (res){
+
+        this.formData.name= res.data.name
+
+      }.bind(this))
+
+    },
     saveForm: function () {
       this.showSavedData=true;
       this.$refs['myForm'].validate(valid => {
@@ -98,19 +117,7 @@ export default {
         }
       })
     },
-    created() {
-      if($.cookie('userid')){
-        this.fetchSavedData(); // 调用你的初始化方法
-      }
-      if(this.formData)
-      this.showSavedData = true;
-    },
-    fetchSavedData:function(){
-      api.getuserinfo($.cookie('userid'), function (data){
-       this.formData= data.data
-      }.bind(this))
 
-    },
     modify:function(){
       this.showSavedData=false;
     },

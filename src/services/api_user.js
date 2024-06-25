@@ -40,11 +40,11 @@ export default {
       }
     });
   },
-  saveuserinfo(email,data, callback) {
+  saveuserinfo(id,data, callback) {
     $.ajax({
       url: `${global.ApiUrl}users/update/${id}`,
       data: JSON.stringify(data),
-      method: 'POST',
+      method: 'PUT',
       contentType: 'application/json',
       success: function(res) {
         callback(res);
@@ -54,12 +54,13 @@ export default {
       }
     });
   },
-  getuserinfo(email, callback) {
+  getuserinfo(id, callback) {
     $.ajax({
       url: `${global.ApiUrl}users/${id}`,
       method: "GET",
       success: function (res) {
         // 处理成功响应的数据
+        console.log(email);
         callback(res);
         console.log("User info retrieved:",res);
         // 在这里你可以更新你的应用状态或者执行其他操作
