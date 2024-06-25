@@ -1,58 +1,49 @@
-
-/**
- * 保存数据到服务器
- * 需要保存的数据 data
- * 请求成功的回调函数 callback
- */
+// services/api_attraction.js
 export default {
-    save(id,attractions,callback){
-        $.ajax({
-            url:`${global.ApiUrl}attractions/save_more_data`,
-            data:{
-                attractions:JSON.stringify(attractions),
-                userid:id
-            },
-            method:'post',
-            success:function(res){
-                // console.log(res)
-                callback(res)
-            },
-            error:function(err){
-                console.log(err)
-            }
-        })
-    },
-    getAttractions(id,callback){
-        // console.log(id)
-        $.ajax({
-            url:`${global.ApiUrl}attractions/get_data`,
-            data:{
-                userid:id
-            },
-            method:'get',
-            success:function(res){
-                callback(res.data)
-            },
-            error:function(err){
-                console.log(err)
-            }
-        })
-    },
-    del(delSavedList,callback){
-        $.ajax({
-            url:`${global.ApiUrl}attractions/del`,
-            data:{
-                attractions:JSON.stringify(delSavedList)
-            },
-            method:'post',
-            success:function(res){
-                console.log(res)
-                callback(res)
-            },
-            error:function(err){
-                console.log(err)
-            }
-        })
-    }
+  save(id, attractions, callback) {
+    $.ajax({
+      url: `${global.ApiUrl}attractions/save_more_data`,
+      contentType: 'application/json',
+      data: JSON.stringify({ attractions, userid: id }),
+      method: 'POST',
+      success: function (res) {
+        callback(res);
+      },
+      error: function (err) {
+        console.error('Error saving attractions:', err);
+      }
+    });
+  },
 
-}
+  getAttractions(id) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: `${global.ApiUrl}attractions/get_data`,
+        contentType: 'application/json',
+        data: JSON.stringify({ userid: id }),
+        method: 'POST',
+        success: function (res) {
+          resolve(res.data);
+        },
+        error: function (err) {
+          reject(err);
+        }
+      });
+    });
+  },
+
+  del(delSavedList, callback) {
+    $.ajax({
+      url: `${global.ApiUrl}attractions/del`,
+      contentType: 'application/json',
+      data: JSON.stringify({ attractions: delSavedList }),
+      method: 'POST',
+      success: function (res) {
+        callback(res);
+      },
+      error: function (err) {
+        console.error('Error deleting attractions:', err);
+      }
+    });
+  }
+};
