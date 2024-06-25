@@ -40,9 +40,9 @@ export default {
       }
     });
   },
-  saveuserinfo(data, callback) {
+  saveuserinfo(email,data, callback) {
     $.ajax({
-      url: `${global.ApiUrl}users/saveinfo`,
+      url: `${global.ApiUrl}users/${id}`,
       data: JSON.stringify(data),
       method: 'POST',
       contentType: 'application/json',
@@ -56,7 +56,7 @@ export default {
   },
   getuserinfo(email, callback) {
     $.ajax({
-      url: `${global.ApiUrl}users/getinfo`,
+      url: `${global.ApiUrl}users/${id}`,
       method: "GET",
       success: function (res) {
         // 处理成功响应的数据
