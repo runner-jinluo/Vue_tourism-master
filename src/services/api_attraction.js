@@ -23,7 +23,8 @@ export default {
         data: JSON.stringify({ userid: id }),
         method: 'POST',
         success: function (res) {
-          resolve(res.data);
+          resolve(res);
+          console.log('Attractions:', res);
         },
         error: function (err) {
           reject(err);

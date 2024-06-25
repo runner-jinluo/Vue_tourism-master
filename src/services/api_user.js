@@ -42,7 +42,7 @@ export default {
   },
   saveuserinfo(id,data, callback) {
     $.ajax({
-      url: `${global.ApiUrl}users/update/${id}`,
+      url: `${global.ApiUrl}users/update/${email}`,
       data: JSON.stringify(data),
       method: 'PUT',
       contentType: 'application/json',
@@ -56,7 +56,7 @@ export default {
   },
   getuserinfo(id, callback) {
     $.ajax({
-      url: `${global.ApiUrl}users/${id}`,
+      url: `${global.ApiUrl}users/${email}`,
       method: "GET",
       success: function (res) {
         // 处理成功响应的数据
