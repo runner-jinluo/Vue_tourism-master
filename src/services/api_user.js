@@ -40,9 +40,9 @@ export default {
       }
     });
   },
-  saveuserinfo(id,data, callback) {
+  saveuserinfo(data,callback) {
     $.ajax({
-      url: `${global.ApiUrl}users/update/${id}`,
+      url: `${global.ApiUrl}users/update`,
       data: JSON.stringify(data),
       method: 'PUT',
       contentType: 'application/json',
@@ -60,9 +60,10 @@ export default {
       method: "GET",
       success: function (res) {
         // 处理成功响应的数据
-        console.log(email);
+        console.log(id);
+        console.log("User info retrieved:", res)
         callback(res);
-        console.log("User info retrieved:",res);
+
         // 在这里你可以更新你的应用状态或者执行其他操作
       },
       error: function (err) {
@@ -77,7 +78,7 @@ export default {
       method: 'GET',
       success: function(res) {
         console.log(res);
-        callback(res);
+        callback(res.data);
       },
       error: function(err) {
         console.log(err);
