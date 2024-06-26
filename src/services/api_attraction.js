@@ -33,11 +33,11 @@ export default {
     });
   },
 
-  del(delSavedList, callback) {
+  del( delSavedList, callback) {
     $.ajax({
       url: `${global.ApiUrl}attractions/del`,
       contentType: 'application/json',
-      data: JSON.stringify({ attractions: delSavedList }),
+      data: JSON.stringify({attractions: delSavedList }),
       method: 'POST',
       success: function (res) {
         callback(res);

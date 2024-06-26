@@ -182,7 +182,7 @@ export default {
           return;
         }
         data.forEach(item => {
-          delete item.userId; // 删除不需要的 userId 属性
+          //delete item.userId; // 删除不需要的 userId 属性
           item.selected = false; // 添加一个新的属性 selected
         });
         this.savedList = data; // 更新 savedList 数组
