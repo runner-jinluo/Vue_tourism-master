@@ -1,6 +1,6 @@
 <template>
     <div id="plan">
-        
+
         <div class="plan-div1">
             <div class="glass plan-div1-div1">
                 <h3>景点</h3>
@@ -37,11 +37,16 @@
                 <span><b>规划的线路：</b></span>
                 <span v-for="(item,index) in plan">{{index==0?"":"("+bestDistance[index-1] +"分钟)"}}{{item.title}}{{index==plan.length-1?'':">"}} </span>
                 <p><b>路上总共花费：</b>{{bestTime}}</p>
+              <div class="button-container">
                 <button class="btn glass save-btn" @click="savePlan()">保存</button>
+                <button class="btn glass review-btn" @click="goToReview()">评价</button>
+              </div>
             </div>
+
         </div>
+
     </div>
-    
+
 </template>
 <script>
     import api_map from '../../services/api_map.js' //地图api的请求
@@ -68,7 +73,9 @@
             }
         },
         methods:{
-            
+            goToReview(){
+            this.$router.push({ name: 'Review' });
+            },
             getAttractions(){
                 api_attraction.getAttractions($.cookie('userid'),function(data){
                     data.forEach(function(item){
@@ -106,7 +113,7 @@
                     }
                     else{
                         this.start = ""
-                    }                
+                    }
                 }
             },
             setEnd(){
@@ -116,7 +123,7 @@
                     }
                     else{
                         this.end = ""
-                    } 
+                    }
                 }
             },
             swap(value,i){
@@ -136,7 +143,7 @@
             },
             startCalc(){
                 $('#calc').text('计算中');
-                
+
                 if(this.start != "" && this.start == this.end){
                     this.SeE = true;
                 }
@@ -176,7 +183,7 @@
                 var that = this //作用域赋值给that
                 var timer = setInterval(function(){
                     if(global.count >= sum){
-                        console.log('initDistance结束') 
+                        console.log('initDistance结束')
                         if(N>= 9){
                             console.log('计算开始了，使用saa计算')
                             console.time('saa')
@@ -202,7 +209,7 @@
                         $('#calc').text('开始规划');
                         that.draw() // 地图上显示规划后的路线
                         that.getBestDistance() //获得各个地点之间花费的时间
-                    } 
+                    }
                 },1000)
             },
             // 地图上显示规划后的路线
@@ -217,6 +224,7 @@
                     this.bestDistance.push(Number((this.Distance[this.bestGhh[i]][this.bestGhh[i+1]] /60).toFixed(1)))
                 }
             },
+
             //保存规划好的路线
             savePlan(){
                 var data = {
@@ -228,12 +236,12 @@
                 }
                 api_plan.save(data,function(res){
                     if(res.status == 'y'){
-                        this.$message.success("路线保存成功") 
+                        this.$message.success("路线保存成功")
                     }
                     else{
-                        this.$message("路线保存失败") 
+                        this.$message("路线保存失败")
                     }
-                    
+
                 }.bind(this))
 
             }
@@ -242,9 +250,10 @@
         created(){
             this.getAttractions()
         },
+
         watch:{
             attractions:function(value){
-                
+
             },
             SeE:function(value){
 
@@ -269,6 +278,7 @@
     }
 </script>
 <style scoped>
+
 #plan>div{
     float:left;
 
@@ -371,7 +381,22 @@
     right:15px;
     bottom:15px;
 }
+.review-btn{
+  width:100px;
+  height:40px;
+  line-height:40px;
+  float:right;
+  border-radius:15px;
+  position:absolute;
+  right:15px;
+  bottom:60px;
+}
 .save-btn:active{
     background-color:aquamarine;
 }
+.button-container {
+  display: flex;
+  justify-content: space-between; /* 如果你想让按钮之间有一些空间 */
+}
+
 </style>

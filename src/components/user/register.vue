@@ -34,7 +34,7 @@
             };
             return {
                 user: {
-                    email: '',
+                    email: 'example@example.com',
                     password: '',
                     password2: ''
                 },
@@ -68,7 +68,7 @@
                         }.bind(this))
                     }
                     else {
-                        console.log('vaildate error!')
+                        console.log('validate error!')
                     }
                 })
             }
@@ -82,20 +82,20 @@
         margin-top: 100px;
         margin-bottom: 40px;
     }
-    
+
     .form {
         width: 50%;
         margin: 0 auto;
     }
-    
+
     .register-btn {
         float:right;
     }
-    
+
     input.el-input__inner {
         border: none !important;
     }
-    
+
     a.btn {
         margin: 0 auto;
         display: inline-block;
@@ -108,11 +108,11 @@
         font-size: 24px;
         justify-content: space-between;
     }
-    
+
     a.btn:active {
         position: relative;
         top: 10px;
         background-color: aquamarine;
     }
-    
+
 </style>

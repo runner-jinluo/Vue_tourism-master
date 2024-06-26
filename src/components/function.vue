@@ -2,27 +2,25 @@
     <div id="function">
         <a class="fun-item glass light" :href="item.to" v-for="item in list">{{item.name}}</a>
     </div>
-    
+
 </template>
 <script>
     export default {
         data(){
             return {
                 list:[
-                    {name:'查询景点',to:'#/query'},
-                    {name:'规划路线',to:'#/plan'},    
+                    {name:'筛选路线',to:'#/Selectoption'},
+                    {name:'规划路线',to:'#/plan'},
                     {name:'查看路线',to:'#/check'},
-                    {name:'个人主页',to:'#/personal'}
+                    {name:'个人信息',to:'#/personal'}
                 ]
             }
         },
         created(){
-        /*
             if(!$.cookie('userid')){
                 this.$message('请先登录')
                 this.$router.push({name:'Login'})
             }
-            */
         }
     }
 </script>

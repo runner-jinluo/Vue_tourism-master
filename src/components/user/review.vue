@@ -5,10 +5,10 @@
       <!-- 可以填写内容和上传图片的文本框 -->
       <textarea placeholder="给出你的观点..." rows="4"></textarea>
       <input type="file" accept="image/*">
-      <button @click="publishLog">发表</button>
+      <button @click="publishReview">发表</button>
 
     </div>
-    <div class="travel-logs">
+    <div class="mark">
       <!-- 已有的旅游日志和旅游攻略列表 -->
 
 
@@ -34,14 +34,32 @@
 
 <script>
 export default {
+  data() {
+    return {
+      content: '',
+      image: null,
+      mark: '',
+      logs: []
+    }
+  },
   methods: {
-    publish() {
-      // 处理发表按钮点击事件的方法
-      // 在这里编写将内容上传服务器等逻辑
+    publishReview() {
+      // 这里可以添加发布日志的代码，例如将内容和图片上传到服务器
+      this.logs.push({
+        id: this.logs.length,
+        content: this.content,
+        image: this.image,
+        mark: this.mark
+      });
+      // 清空输入框
+      this.content = '';
+      this.image = null;
+      this.mark = '';
     }
   }
 }
 </script>
+
 
 <style scoped>
 #travel-share {

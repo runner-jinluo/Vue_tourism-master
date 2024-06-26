@@ -5,7 +5,8 @@
         <ul>
           <li class="active glass light"><a href="#/">首页</a></li>
           <li class="glass light"><a href="#/function">功能</a></li>
-          <li class="glass light"><a href="#/help">分享</a></li>
+          <li class="glass light"><a href="#/share">分享</a></li>
+          <li class="glass light"><a href="#/blogdisplay">博客</a></li>
           <li class="glass light"><a :href='"#/"+(isLogin?"center":"login")'>{{isLogin?"个人中心":"登录"}}</a></li>
         </ul>
       </div>
@@ -30,7 +31,7 @@ export default {
       else{
         this.isLogin = false;
       }
-      
+
       $('a[href="#'+this.$router.currentRoute.fullPath+'"]').parent().addClass('active')
       .siblings().removeClass('active')
     }
@@ -41,7 +42,7 @@ export default {
         this.isLogin = true;
       }
   }
-  
+
 
 }
 
@@ -53,11 +54,11 @@ body,html{
   padding: 0;
   height: 100%;
   color:#666;
- 
+
 }
 #app{
   height: 100%;
-  background-color: #FFE7BA;
+  background-color: #e0f7fa;
 }
 ul,li{
   margin: 0;
@@ -77,6 +78,11 @@ a{
   margin: 0 auto;
   /*background-color:rgba(255, 228, 196, 0.7);*/
 }
+.nav .container ul {
+  display: flex;
+  justify-content: space-between; /* 如果你希望按钮之间有相同的间距 */
+}
+
 .nav .container ul li{
   float: left;
   width:19%;
@@ -86,7 +92,7 @@ a{
   margin-right: 8%;
   background-color:transparent;
   border-radius: 10px;
-  
+
 }
 .glass{
   box-shadow: 10px 10px 20px rgba(255, 255, 255, 0.6) inset,
@@ -100,18 +106,18 @@ a{
 .nav .container ul li a{
   display: inline-block;
   width:100%;
-  height: 100%; 
+  height: 100%;
   color:#666;
 }
 .nav .container ul li:hover{
-  background-color:rgba(255, 228, 196, 1);
+  background-color:rgb(200, 248, 241);
 }
 .nav .container ul li:active{
   position:relative;
   top:10px;
 }
 .nav .container ul li.active{
-  background-color:aquamarine;
+  background-color:rgb(148, 245, 212);
 }
 
 .view{

@@ -12,7 +12,9 @@
       <p>暂无推荐的队友</p>
     </div>
     <button @click="confirmSelection" :disabled="!selectedTeammateId">确认选择</button>
+    <button id="calc" class="glass btn plan-btn" @click="goToSavedSearchPage()">开始规划</button>
   </div>
+
 </template>
 
 <script>
@@ -39,6 +41,9 @@ export default {
       // axios.post('/api/confirm-selection', { teammateId: this.selectedTeammateId }).then(() => {
       //   alert('选择成功！');
       // });
+    },
+    goToSavedSearchPage() {
+      this.$router.push({ name: 'Plan' });
     },
   },
 };

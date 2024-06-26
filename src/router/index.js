@@ -6,7 +6,7 @@ import Plan from 'components/function/plan'
 import Query from 'components/function/query'
 import Personal from 'components/function/personal'
 import Check from 'components/function/check'
-import Help from 'components/help'
+import Share from 'components/share'
 import Login from 'components/user/login'
 import Register from 'components/user/register'
 import Center from 'components/user/center'
@@ -33,9 +33,9 @@ export default new Router({
       component: Function
     },
     {
-      path: '/help',
-      name: 'Help',
-      component: Help
+      path: '/share',
+      name: 'Share',
+      component: Share
     },{
       path: '/login',
       name: 'Login',

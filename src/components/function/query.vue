@@ -1,5 +1,5 @@
 <template>
-    <div id="query"> 
+    <div id="query">
             <div class="glass tool">
                 <div class="tool-item">
                     工具栏
@@ -11,16 +11,16 @@
                 <!--<a class="tool-item glass btn attractions" @click="getLocation">显示当前</a>-->
                 <a class="tool-item glass btn attractions" @click="getAttractions">搜索景点</a>
                 <!--<a class="tool-item glass btn attractions" @click="reset">reset</a>-->
-            </div>     
+            </div>
         <div class="query-div1 glass">
-            <div class="query-div1-div1">  
+            <div class="query-div1-div1">
                 <a href="javascript:void(0)" data-list="list" class="cur" @click="setIsSaveTrue()">查询</a>
                 <a href="javascript:void(0)" data-list="savedList" @click="getSavedList()">已保存</a>
             </div>
             <div>
                 <ul class="list block">
                     <li v-for="(i,index) in place">{{i.title}} <span class="del" @click="delItem(index)"> x </span></li>
-                </ul>                
+                </ul>
                 <ul class="savedList">
                     <li v-for="(i,index) in savedList" :class="{selected:i.selected}" @click="selectSavedListItem(i)">{{i.title}}</li>
                 </ul>
@@ -34,6 +34,7 @@
             <el-row justify="space-between" type="flex">
                     <div class="query-input">
                         <input class="input glass" placeholder="请输入关键词" v-model="query.key"></input>
+                      <button id="calc" class="glass btn plan-btn" @click="goToSavedSearchPage()">开始规划</button>
                     </div>
                     <div>
                         <a class="glass btn search-btn" @click="subHandle">搜</a>
@@ -43,9 +44,9 @@
             </el-row>
             <div id="r-result" class="glass"></div>
         </div>
-        
+
     </div>
-    
+
 </template>
 <script>
     import api_map from '../../services/api_map.js'
@@ -129,11 +130,14 @@
             getLocation(){
                 api_map.location(this.map);
             },
+            goToSavedSearchPage() {
+            this.$router.push({ name: 'Displayteam' });
+            },
             //点击地图，直接获取坐标的方法
             getCoordinates(event){
                 var item = {}
                 item.point = event.point;
-                
+
                 // alert(event.point.lng + "," + event.point.lat);
                 var geoc = new BMap.Geocoder();
                 geoc.getLocation(event.point, function(rs){
@@ -141,7 +145,7 @@
                     var addComp = rs.addressComponents
                     item.adress = addComp.province + "," + addComp.city + "," + addComp.district + "," + addComp.street + "," + addComp.streetNumber
                     this.place.push(item)
-                }.bind(this));       
+                }.bind(this));
             },
             //初始化按钮，以供 显示选取景点用
             initBtn(){
@@ -175,7 +179,7 @@
                             this.$message.success("数据保存成功")
                             this.place = []
                         }
-                        
+
                     }.bind(this))
                 }
                 else{ //删除数据
@@ -184,15 +188,15 @@
                         return;
                     }
                     api_attraction.del(this.delSavedList,function(res){
-                        
+
                         if(res.status=="y"){
                             this.$message.success("数据删除成功")
                             this.getSavedList()
                         }
-                        
+
                     }.bind(this))
                 }
-                
+
             },
             //获取已经保存的景点
             getSavedList(){
@@ -232,7 +236,7 @@
                 else{
                     this.map.removeEventListener("click",this.getCoordinates,false);
                 }
-                
+
             },
             title:function(value){
                 if(value && this.query.results){
@@ -254,9 +258,10 @@
             }
         },
         created(){
-            
+
             this.initBtn()
         },
+
         mounted(){
             var map = new BMap.Map("allmap");    // 创建Map实例
             this.map = map
@@ -271,7 +276,7 @@
 
         }
     }
-    
+
 </script>
 <style scoped>
 
@@ -293,7 +298,7 @@
     height:100%;
 }
 #query>div{
-    float:left;  
+    float:left;
 }
 .query-div1{
     margin-right:20px;
@@ -318,11 +323,11 @@
 }
 .btn{
     background-color:transparent;
-    border:none; 
+    border:none;
     color:#666;
     text-align:center;
     cursor:pointer;
-    
+
 }
 
 a.search-btn{
@@ -330,7 +335,7 @@ a.search-btn{
     display:inline-block;
     width:42px;
     height:42px;
-    
+
     border-radius:50%;
     line-height:42px;
 }
@@ -353,7 +358,7 @@ input.input{
 }
 
 .btn:active{
-    background-color:aquamarine; 
+    background-color:aquamarine;
 }
 .tool{
     padding:0;
@@ -396,7 +401,7 @@ input.input{
 .query-div1 .savedList li{
     line-height:40px;
     padding-left:10px;
-    position:relative;  
+    position:relative;
 }
 .del{
     display:inline-block;
@@ -412,7 +417,7 @@ input.input{
 }
 .del:hover{
     background-color:rgba(255,255,255,0.4)
-    
+
 }
 .save-btn{
     position:absolute;
@@ -442,10 +447,10 @@ input.input{
 }
 .query-div1-div1>a:nth-of-type(1){
     // border-right:1px solid white;
-    
+
 }
 .query-div1-div1>a.cur{
-    
+
     background-color:rgba(255,255,255,0.3);
     font-size:20px;
 }
@@ -455,10 +460,10 @@ input.input{
 }
 .query-div1 ul.savedList{
     height:650px;
-   
+
     overflow:scroll;
     overflow-x: hidden;
-    width:220px;   
+    width:220px;
 }
 .query-div1 ul.savedList li.selected{
     background-color:white;

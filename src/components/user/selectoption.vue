@@ -2,24 +2,8 @@
   <div id="select_option">
     <h1>筛选条件</h1>
 
-    <div>
-      <input type="text" v-model="searchTerm" placeholder="请输入具体景点" @input="handleInput" />
-      <button @click="saveSearch">保存搜索</button>
-      <div v-if="searchTerm">
-        <div v-for="result in searchResults" :key="result.id">
-          {{ result.name }}
-        </div>
-      </div>
-      <div v-if="savedSearches.length">
-        <h2>保存的搜索</h2>
-        <div v-for="search in savedSearches" :key="search.id">
-          <h3>{{ search.term }}</h3>
-          <div v-for="result in search.results" :key="result.id">
-            {{ result.name }}
-          </div>
-        </div>
-      </div>
-    </div>
+    <button @click="goToSavedSearchPage">景点选择</button>
+
 
 
     <!-- 单选项 -->
@@ -106,31 +90,29 @@ export default {
   data() {
     return {
       searchTerm: '',
-      name: "",
-      contact: "",
       searchResults: [],
-      savedSearches: []
-    };
+      savedSearches: [],
+      gender: '',
+      age: '',
+      hobbies: [],
+      days: [],
+      ticket: []
+    }
   },
   methods: {
-    saveInfo() {
-      // 在这里处理保存用户信息的逻辑，可以将填写的信息提交到后端或者进行其他操作
-      console.log("保存用户信息");
+    handleInput() {
+      // 这里可以添加处理输入的代码，例如搜索功能
     },
-      handleInput() {
-        this.searchResults = this.items.filter(item =>
-          item.name.includes(this.searchTerm)
-        );
+    goToSavedSearchPage() {
+        this.$router.push({ name: 'Query' });
       },
-      saveSearch() {
-        this.savedSearches.push({
-          term: this.searchTerm,
-          results: [...this.searchResults],
-        });
+    saveInfo() {
+      // 这里可以添加保存信息的代码，例如保存用户的选择
     }
   }
-};
+}
 </script>
+
 
 <style>
 /* 添加样式，使界面看起来更美观 */

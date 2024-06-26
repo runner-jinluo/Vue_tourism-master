@@ -11,7 +11,7 @@
                 </el-form-item>
                 <div>
                     <a href="#/register" class="btn glass light">去注册</a>
-                    <a href="javascript:void(0)" class="btn glass light login-btn" @click="subHandle">登录</a>
+                    <a href="#/function" class="btn glass light login-btn" @click="subHandle">登录</a>
                 </div>
             </el-form>
         </div>
@@ -43,16 +43,13 @@
                 this.$refs['userForm'].validate(valid => {
                     if (valid) {
                         api.login(this.user, function (res) {
-                          if (res && res.email) {
-                            console.log("User info:", res);
-                            $.cookie('userid', res.userid, { path: '/' });
-                            //this.$message.success(res.msg);
-                            console.log("Attempting to navigate to Function");
-                            this.$router.push({ name: 'Function' });
-                            console.log("Function");
-                          }
-                          else {
-                                //this.$message.error(res.msg)
+                            if (res&&res.email) {
+                                $.cookie('userid',res.email,{path:'/'})
+                                //this.$message.success(res.msg)
+                                this.$router.push({ name: 'Function' })
+                            }
+                            else {
+                                this.$message.error(res.msg)
                             }
                         }.bind(this))
                     }
@@ -106,7 +103,7 @@ a.btn{
 a.btn:active{
     position:relative;
     top:10px;
-    background-color:aquamarine;
+    background-color:rgb(127, 255, 212);
 }
 
 </style>
