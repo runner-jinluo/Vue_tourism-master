@@ -5,7 +5,7 @@
             <div class="glass plan-div1-div1">
                 <h3>景点</h3>
                 <ul class="attractions">
-                    <li v-for="item in attractions" @click="select(item)" :class="{selected:item.selected}">{{item.title}}</li>
+                    <li v-for="item in attractions" :key="item.id" @click="select(item)" :class="{selected:item.selected}">{{item.title}}</li>
                 </ul>
             </div>
             <div class="glass plan-div1-div2">
@@ -76,21 +76,48 @@
             goToReview(){
             this.$router.push({ name: 'Review' });
             },
-            getAttractions(){
-                api_attraction.getAttractions($.cookie('userid'),function(data){
-                    data.forEach(function(item){
-                        delete item.userid
-                        delete item.__v
-                        item.selected = false
-                    })
-                    // console.log(data)
-                    this.attractions = data
-                }.bind(this))
+            async getAttractions() {
+              const userId = $.cookie('userid'); // 获取用户ID
+              console.log(userId); // 打印用户ID以进行调试
+
+              try {
+                const data = await api_attraction.getAttractions(userId);
+                console.log('Received data:', data);
+                if (!data || !Array.isArray(data)) {
+                  console.error('获取的数据不是一个有效的数组:', data);
+                  return;
+                }
+                data.forEach(item => {
+                  //delete item.userId; // 删除不需要的 userId 属性
+                  console.log(item); // 打印每一条数据以进行调试
+                  item.selected = false; // 添加一个新的属性 selected
+                });
+                this.attractions = data; // 更新 savedList 数组
+              } catch (error) {
+                console.error('Error retrieving attractions:', error);
+              }
+              /*const userId = $.cookie('userid');
+              console.log("UserID:", userId);
+              api_attraction.getAttractions(userId, function(data) {
+                console.log("API response:", data); // 确认API响应数据
+                if (Array.isArray(data)) {
+                  data.forEach(function(item) {
+                    delete item.userId;
+                    item.selected = false;
+                  });
+                  console.log("Processed attractions:", data);
+                  this.attractions = data;
+                } else {
+                  console.error("Unexpected data format:", data);
+                }
+              }.bind(this));*/
             },
             select(item){
                 item.selected = !item.selected
                 if(item.selected){
                     this.selectedAttractions.push(item)
+                    console.log(item.title)
+                  console.log(this.selectedAttractions)
                 }
                 else{
                     var index = this.selectedAttractions.findIndex(function(i){
@@ -108,6 +135,7 @@
             },
             setStart(){
                 if(this.one){
+                  console.log(this.one)
                     if(this.start != this.one){
                         this.start = this.one
                     }
@@ -143,6 +171,9 @@
             },
             startCalc(){
                 $('#calc').text('计算中');
+                console.log("start",this.start);
+                console.log(this.selectedAttractions);
+                console.log(this.end);
 
                 if(this.start != "" && this.start == this.end){
                     this.SeE = true;
@@ -155,7 +186,7 @@
                     this.swap(this.end,this.selectedAttractions.length-1)
                 }
                 List = this.selectedAttractions
-
+                console.log("list",List)
 
                 // var List =  ['香港特别行政区','上海市','北京市','深圳市','广州市','苏州市','青岛市','温州市','宁波市','大连市']
 

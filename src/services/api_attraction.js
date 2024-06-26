@@ -24,7 +24,7 @@ export default {
         method: 'POST',
         success: function (res) {
           resolve(res);
-          console.log('Attractions:', res);
+          //console.log('Attractions:', res);
         },
         error: function (err) {
           reject(err);
