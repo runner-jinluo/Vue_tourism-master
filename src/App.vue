@@ -52,12 +52,13 @@ export default {
 body,html{
   margin: 0;
   padding: 0;
+  min-height: 100%;
   height: 100%;
   color:#666;
 
 }
 #app{
-  height: 100%;
+  min-height: 100%;
   background-color: #E0F7FA;
 }
 ul,li{

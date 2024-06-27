@@ -1,7 +1,7 @@
 <template>
     <div id="user">
         <div class="glass user-div">
-            <h1>email:{{user.email}}</h1>
+            <h1>email:  {{userId}}</h1>
             <a class="glass light btn check-btn" href="#/check">查看保存的路线数据</a>
             <a class="glass light btn"  @click="logout">退出登录</a>
         </div>
@@ -12,6 +12,7 @@
     export default {
         data(){
             return {
+                userId: $.cookie('userid'),
                 user: {}
             }
         },

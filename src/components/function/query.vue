@@ -77,6 +77,7 @@ export default {
   },
   methods: {
     subHandle: function() {
+      console.log("subHandle called with key:", this.query.key); // 调试信息
       if (this.query.key === '') {
         $('input.input').attr('placeholder', '输入框不能为空');
         return;
@@ -84,6 +85,7 @@ export default {
       this.map.clearOverlays();
       var sel = this;
       api_map.searchByKey(this.query.key, this.map, function(results) {
+        console.log("searchByKey results:", results); // 调试信息
         sel.query.results = results;
         var btn = sel.btn;
         if (!sel.CreatedEvent) {
@@ -94,6 +96,7 @@ export default {
           $('body').on('click', 'button.collect', function(event) {
             event.stopPropagation();
             sel.title = $(this).parent().find('span').eq(2).text();
+            console.log("Selected title:", sel.title); // 调试信息
             var myGeo = new BMap.Geocoder();
             myGeo.getPoint(sel.title, function(point) {
               if (point) {
@@ -102,6 +105,7 @@ export default {
                 item.title = sel.title;
                 item.address = sel.title;
                 sel.place.push(item);
+                console.log("Point found and added:", item); // 调试信息
               } else {
                 alert("您选择地址没有解析到结果!");
               }
@@ -112,23 +116,28 @@ export default {
       });
     },
     getLocation() {
+      console.log("getLocation called"); // 调试信息
       api_map.location(this.map);
     },
     goToSavedSearchPage() {
+      console.log("goToSavedSearchPage called"); // 调试信息
       this.$router.push({ name: 'Displayteam' });
     },
     getCoordinates(event) {
+      console.log("getCoordinates called with event:", event); // 调试信息
       var item = {};
       item.point = event.point;
       var geoc = new BMap.Geocoder();
       geoc.getLocation(event.point, function(rs) {
         item.title = rs.address;
         var addComp = rs.addressComponents;
-        item.adress = `${addComp.province},${addComp.city},${addComp.district},${addComp.street},${addComp.streetNumber}`;
+        item.address = `${addComp.province},${addComp.city},${addComp.district},${addComp.street},${addComp.streetNumber}`;
         this.place.push(item);
+        console.log("Coordinates found and added:", item); // 调试信息
       }.bind(this));
     },
     initBtn() {
+      console.log("initBtn called"); // 调试信息
       this.btn = $('<button>+</button>').css({
         position: 'absolute',
         top: 'calc(50% - 20px)',
@@ -138,30 +147,36 @@ export default {
       }).addClass('glass light collect').eq(0);
     },
     getAttractions() {
+      console.log("getAttractions called"); // 调试信息
       this.query.key = '景点';
       this.subHandle();
     },
     delItem(index) {
+      console.log("delItem called with index:", index); // 调试信息
       this.place.splice(index, 1);
     },
     saveOrDelAttractions() {
       if (this.isSave) {
+        console.log("Saving attractions"); // 调试信息
         if (this.place.length <= 0) {
           this.$message('没有数据需要保存');
           return;
         }
         api_attraction.save($.cookie('userid'), this.place, function(res) {
+          console.log("save response:", res); // 调试信息
           if (res.status === "y") {
             this.$message.success("数据保存成功");
             this.place = [];
           }
         }.bind(this));
       } else {
+        console.log("Deleting attractions"); // 调试信息
         if (this.delSavedList.length <= 0) {
           this.$message('没有数据需要删除');
           return;
         }
         api_attraction.del(this.delSavedList, function(res) {
+          console.log("delete response:", res); // 调试信息
           if (res.status === "y") {
             this.$message.success("数据删除成功");
             this.getSavedList();
@@ -172,26 +187,26 @@ export default {
     async getSavedList() {
       this.isSave = false;
       const userId = $.cookie('userid'); // 获取用户ID
-      console.log(userId); // 打印用户ID以进行调试
+      console.log("getSavedList called with userId:", userId); // 调试信息
 
       try {
         const data = await api_attraction.getAttractions(userId);
-        console.log('Received data:', data);
+        console.log("getSavedList received data:", data); // 调试信息
         if (!data || !Array.isArray(data)) {
           console.error('获取的数据不是一个有效的数组:', data);
           return;
         }
         data.forEach(item => {
-          //delete item.userId; // 删除不需要的 userId 属性
           item.selected = false; // 添加一个新的属性 selected
         });
         this.savedList = data; // 更新 savedList 数组
-        console.log(this.savedList); // 打印 savedList 以进行调试
+        console.log("Updated savedList:", this.savedList); // 调试信息
       } catch (error) {
         console.error('Error retrieving attractions:', error);
       }
     },
     selectSavedListItem(item) {
+      console.log("selectSavedListItem called with item:", item); // 调试信息
       item.selected = !item.selected;
       if (item.selected) {
         this.delSavedList.push(item);
@@ -199,13 +214,16 @@ export default {
         const index = this.delSavedList.findIndex(i => i === item);
         this.delSavedList.splice(index, 1);
       }
+      console.log("Updated delSavedList:", this.delSavedList); // 调试信息
     },
     setIsSaveTrue() {
+      console.log("setIsSaveTrue called"); // 调试信息
       this.isSave = true;
     }
   },
   watch: {
     isAddClickEvent(value) {
+      console.log("isAddClickEvent changed to:", value); // 调试信息
       if (value) {
         this.map.addEventListener("click", this.getCoordinates, false);
       } else {
@@ -213,6 +231,7 @@ export default {
       }
     },
     title(value) {
+      console.log("title changed to:", value); // 调试信息
       if (value && this.query.results) {
         const data = this.query.results.filter(item => item.title.indexOf(value) > -1)[0];
         if (data) {
@@ -222,19 +241,23 @@ export default {
             address: data.address
           };
           this.place.push(data2);
+          console.log("Updated place with new title:", this.place); // 调试信息
         }
       }
     },
     place(value) {
+      console.log("place changed to:", value); // 调试信息
       if (value.length >= 15) {
         this.$message('最多保存15个');
       }
     }
   },
   created() {
+    console.log("Component created"); // 调试信息
     this.initBtn();
   },
   mounted() {
+    console.log("Component mounted"); // 调试信息
     const map = new BMap.Map("allmap");
     this.map = map;
     api_map.initMap(this.map);

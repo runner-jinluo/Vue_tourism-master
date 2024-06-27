@@ -70,7 +70,7 @@ export default {
         }
     },
     setRoute(map,list,SeE){
-        map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
+        map.centerAndZoom(new BMap.Point(126.661, 45.763), 11);
         map.enableScrollWheelZoom(true);
         // console.log(list)
         var arr = []
