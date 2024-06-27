@@ -23,7 +23,8 @@ export default {
         data: JSON.stringify({ userid: id }),
         method: 'POST',
         success: function (res) {
-          resolve(res.data);
+          resolve(res);
+          //console.log('Attractions:', res);
         },
         error: function (err) {
           reject(err);
@@ -32,11 +33,11 @@ export default {
     });
   },
 
-  del(delSavedList, callback) {
+  del( delSavedList, callback) {
     $.ajax({
       url: `${global.ApiUrl}attractions/del`,
       contentType: 'application/json',
-      data: JSON.stringify({ attractions: delSavedList }),
+      data: JSON.stringify({attractions: delSavedList }),
       method: 'POST',
       success: function (res) {
         callback(res);

@@ -1,75 +1,104 @@
 <template>
-    <div id="travel-share">
-      <h1>旅游分享</h1>
-      <div class="content-upload">
-        <!-- 可以填写内容和上传图片的文本框 -->
-        <textarea placeholder="分享你的旅行见闻..." rows="4"></textarea>
-        <input type="file" accept="image/*">
-        <button @click="publishLog">发表为旅游日志</button>
-        <button @click="publishStrategy">发表为旅游攻略</button>
+  <div>
+    <h2>上传旅游日志</h2>
+    <form @submit.prevent="submitLog">
+      <div>
+        <label for="logText">日志内容:</label>
+        <textarea v-model="log.logText" id="logText" required></textarea>
       </div>
-      <div class="travel-logs">
-        <!-- 已有的旅游日志和旅游攻略列表 -->
-        <div class="log-item">
-          <h3>日志标题</h3>
-          <p>这里是旅行日志的内容...</p>
-        </div>
-        <div class="log-item">
-          <h3>攻略标题</h3>
-          <p>这里是旅行攻略的内容...</p>
-        </div>
-        <!-- 在这里添加更多的日志和攻略 -->
-      </div>
-    </div>
-  </template>
+      <button type="submit">上传</button>
+    </form>
 
-  <script>
-  export default {
-    methods: {
-      publish() {
-        // 处理发表按钮点击事件的方法
-        // 在这里编写将内容上传服务器等逻辑
-      }
+    <h2>上传旅游攻略</h2>
+    <form @submit.prevent="submitGuide">
+      <div>
+        <label for="guideText">攻略内容:</label>
+        <textarea v-model="guide.guideText" id="guideText" required></textarea>
+      </div>
+      <div>
+        <label for="routeId">攻略对应路线:</label>
+        <select v-model="guide.routeId" id="routeId" required>
+          <option v-for="route in routes" :key="route.id" :value="route.id">
+            {{ route.id }}
+          </option>
+        </select>
+      </div>
+      <button type="submit">上传</button>
+    </form>
+  </div>
+</template>
+
+<script>
+import logService from '../services/logService';
+import $ from 'jquery';
+import 'jquery.cookie';
+
+export default {
+  data() {
+    return {
+      log: {
+        usrId: '',
+        logText: ''
+      },
+      guide: {
+        usrId: '',
+        guideText: '',
+        routeId: ''
+      },
+      routes: []
+    };
+  },
+  created() {
+    const userId = $.cookie('userid');
+    if (!userId) {
+      this.$message('请先登录');
+      this.$router.push({ name: 'Login' });
+    } else {
+      this.log.usrId = userId;
+      this.guide.usrId = userId;
+      this.fetchRoutes();
+    }
+  },
+  methods: {
+    submitLog() {
+      logService.uploadLog(this.log, data => {
+        console.log('Log uploaded:', data);
+        alert('Log uploaded successfully');
+        this.log.logText = '';
+      });
     },
-    created(){
-      if(!$.cookie('userid')){
-        this.$message('请先登录')
-        this.$router.push({name:'Login'})
-      }
+    submitGuide() {
+      logService.uploadGuide(this.guide, data => {
+        console.log('Guide uploaded:', data);
+        alert('Guide uploaded successfully');
+        this.guide.guideText = '';
+        this.guide.routeId = '';
+      });
+    },
+    fetchRoutes() {
+      logService.fetchAllRoutes(data => {
+        this.routes = data;
+      });
     }
   }
+};
+</script>
 
-  </script>
+<style>
+/* Add some basic styling */
+form {
+  max-width: 400px;
+  margin: auto;
+}
 
-  <style scoped>
-  #travel-share {
-    text-align: center;
-  }
+div {
+  margin-bottom: 1em;
+}
 
-  .content-upload {
-    margin-top: 20px;
-  }
 
-  textarea {
-    width: 80%;
-    margin-bottom: 10px;
-  }
-
-  input[type="file"] {
-    margin-bottom: 10px;
-  }
-
-  button {
-    padding: 8px 16px;
-  }
-
-  .travel-logs {
-    margin-top: 20px;
-  }
-
-  .log-item {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
-  </style>
+textarea, select {
+  width: 100%;
+  padding: 0.5em;
+  box-sizing: border-box;
+}
+</style>
