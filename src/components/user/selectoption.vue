@@ -54,7 +54,10 @@
       </div>
       <!-- 保存按钮 -->
       <el-form-item>
-        <a class="glass light btn register-btn" @click="saveForm">保存并进行景点选择</a>
+        <a class="glass light btn register-btn" @click="saveForm">保存</a>
+      </el-form-item>
+      <el-form-item>
+        <a class="glass light btn register-btn" @click="jump">景点选择</a>
       </el-form-item>
 
 
@@ -166,6 +169,9 @@ export default {
       })
 
     },
+    jump(){
+      this.$router.push({ name: 'Query' });
+    }
 
   },
   computed: {

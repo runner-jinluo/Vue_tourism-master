@@ -58,8 +58,8 @@
                 this.$refs['userForm'].validate(valid => {
                     if (valid) {
                         api.register(this.user, function (res) {
-                            if (res.status == 'y') {
-                                this.$message.success("用户注册成功")
+                            if (res&&res.email) {
+                               /* this.$message.success("用户注册成功")*/
                                 this.$router.push({ name: 'Login' })
                             }
                             else {
