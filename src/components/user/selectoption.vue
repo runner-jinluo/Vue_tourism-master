@@ -16,9 +16,7 @@
         <el-form-item label="最大年龄" prop="maxage">
           <el-input v-model="selectform.maxage"   />
         </el-form-item></h3>
-
-
-
+      <p v-if="isMinAgeLessThanMaxAge">最小年龄必须小于最大年龄。</p>
       <div class="centered-checkbox">
         <h3> <el-form-item label="旅游爱好：">
 
@@ -58,9 +56,7 @@
       <el-form-item>
         <a class="glass light btn register-btn" @click="saveForm">保存并进行景点选择</a>
       </el-form-item>
-      <el-form-item>
-        <a class="glass light btn register-btn"  @click="deleteform">重新筛选</a>
-      </el-form-item>
+
 
 <!--
       <p>test：{{ this.selectedSex}}</p>
@@ -102,12 +98,12 @@ export default {
       rules: {
         minage: [
           { required: true, message: '请输入最小年龄' },
-          { type: 'number', message: '请输入有效的数字', trigger: 'blur' },
+
 
         ],
         maxage: [
           { required: true, message: '请输入最大年龄', trigger: 'blur' },
-          { type: 'number', message: '请输入有效的数字', trigger: 'blur' },
+
 
         ],
       },
@@ -142,17 +138,17 @@ export default {
 
         }
     },
-    deleteform(){},
+
     saveForm() {
 
       this.selectform.email=$.cookie('userid');
       this.selectform.sex = this.selectedSex.join("");
-      /*this.selectform.age = this.selectedAge.join("");*/
+
       this.selectform.interest = this.selectedInterest.join("");
       this.selectform.days = this.selectedDays.join("");
       this.selectform.tickets = this.selectedTickets.join("");
       this.$refs['myForm'].validate(valid => {
-        if ( !this.ageError ) {
+        if (!this.isMinAgeLessThanMaxAge) {
 
           api.selectoption(this.selectform, function (res) {
             if (res.status == 'y') {
@@ -171,7 +167,15 @@ export default {
 
     },
 
-  }
+  },
+  computed: {
+    isMinAgeLessThanMaxAge() {
+      // 验证逻辑
+      const minAge = parseInt(this.selectform.minage);
+      const maxAge = parseInt(this.selectform.maxage);
+      return minAge > maxAge;
+    },
+  },
 }
 </script>
 
