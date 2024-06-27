@@ -1,50 +1,79 @@
 <template>
-  <div id="displayteam">
+  <div>
     <h2>推荐的队友</h2>
-    <div v-if="recommendedTeammates.length">
-      <div v-for="teammate in recommendedTeammates" :key="teammate.id">
-        <h3>{{ teammate.name }}</h3>
-        <p>{{ teammate.description }}</p>
-        <input type="radio" :value="teammate.id" v-model="selectedTeammateId"> 选择此队友
+    <button id="calc" class="glass btn plan-btn" @click="goToPlanPage()">开始规划</button>
+    <div class="team-container">
+      <div class="team-list">
+        <ul>
+          <li v-for="(user, index) in users" :key="index">
+            <p><strong>队友{{ index + 1 }}：</strong></p>
+            <p><strong>姓名：</strong>{{ user.name }}</p>
+            <p><strong>年龄：</strong>{{ user.age }}</p>
+            <p><strong>联系方式：</strong>{{ user.phoneNumber }}</p>
+            <p><strong>爱好：</strong>{{ user.commonInterests }}</p>
+            <br />
+          </li>
+        </ul>
       </div>
     </div>
-    <div v-else>
-      <p>暂无推荐的队友</p>
-    </div>
-    <button @click="confirmSelection" :disabled="!selectedTeammateId">确认选择</button>
-    <button id="calc" class="glass btn plan-btn" @click="goToSavedSearchPage()">开始规划</button>
   </div>
-
 </template>
 
 <script>
+import logService from '../../services/team';
+import $ from 'jquery';
+import 'jquery.cookie';
+
 export default {
   data() {
     return {
-      recommendedTeammates: [],
-      selectedTeammateId: null,
+      users: []
     };
   },
   created() {
-    this.fetchRecommendedTeammates();
+    const email = $.cookie('userid');
+    console.log(`Current user email: ${email}`);
+    if (!email) {
+      this.$message('请先登录');
+      this.$router.push({ name: 'Login' });
+    } else {
+      this.fetchMatchingUsers(email);
+    }
   },
   methods: {
-    fetchRecommendedTeammates() {
-      // 这里是获取推荐队友的代码，具体实现需要根据你的后台API进行调整
-      // 假设你的后台API返回一个形如 [{ id: 1, name: '队友1', description: '队友1的描述' }, ...] 的数组
-      // axios.get('/api/recommended-teammates').then(response => {
-      //   this.recommendedTeammates = response.data;
-      // });
+    fetchMatchingUsers(email) {
+      logService.fetchMatchingUsers(email, data => {
+        console.log('Fetched users:', data);
+        this.users = data;
+      });
     },
-    confirmSelection() {
-      // 这里是确认选择的代码，具体实现需要根据你的后台API进行调整
-      // axios.post('/api/confirm-selection', { teammateId: this.selectedTeammateId }).then(() => {
-      //   alert('选择成功！');
-      // });
-    },
-    goToSavedSearchPage() {
-      this.$router.push({ name: 'Plan' });
-    },
-  },
+    goToPlanPage() {
+        this.$router.push({ name: 'Plan' });
+    }
+  }
 };
 </script>
+
+<style>
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.team-container {
+  max-height: 80vh; /* 控制容器高度 */
+  overflow-y: auto; /* 添加垂直滚动条 */
+  border: 1px solid #ddd; /* 边框 */
+  padding: 10px; /* 内边距 */
+}
+
+.team-list {
+  list-style-type: none; /* 去掉列表样式 */
+  padding: 0; /* 去掉默认的内边距 */
+}
+
+strong {
+  display: inline-block;
+  width: 100px;
+}
+</style>

@@ -1,7 +1,7 @@
 export default {
     //初始化地图
     initMap(map) {
-        map.centerAndZoom(new BMap.Point(126.662, 45.763), 11);  // 初始化地图,设置中心点坐标和地图级别
+        map.centerAndZoom(new BMap.Point(126.661, 45.763), 11);  // 初始化地图,设置中心点坐标和地图级别
         // map.addControl(new BMap.MapTypeControl());   //添加地图类型控件
         map.setCurrentCity("哈尔滨");          // 设置地图显示的城市 此项是必须设置的
         map.enableScrollWheelZoom(true);
@@ -14,7 +14,7 @@ export default {
                 var mk = new BMap.Marker(r.point);
                 map.addOverlay(mk);
                 map.panTo(r.point);
-                
+
                 alert('您的位置：' + r.point.lng + ',' + r.point.lat);
             }
             else {
@@ -45,9 +45,9 @@ export default {
         }));
     },
     //点击获取坐标
-    getCoordinatesClick(map){       
+    getCoordinatesClick(map){
         //单击获取点击的经纬度
-        
+
     },
     //关键字搜索
     searchByKey(key,map,callback){
@@ -55,7 +55,7 @@ export default {
             renderOptions:{
                 map: map,
                 panel: "r-result",
-                
+
             },
             onSearchComplete:function(results){
                 callback(results.xr)
@@ -66,7 +66,7 @@ export default {
 
         function SearchComplete(results){
             conosle.log(111)
-            
+
         }
     },
     setRoute(map,list,SeE){
@@ -85,7 +85,7 @@ export default {
             }
             else{
                 arr.push(new BMap.Point(item.point.lng,item.point.lat))
-            }   
+            }
         })
         var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true}});
         if(SeE){
@@ -94,7 +94,7 @@ export default {
         else{
             driving.search(p1, p2,{waypoints:arr});
         }
-        
+
     }
 
 }

@@ -5,7 +5,7 @@
         <ul>
           <li class="active glass light"><a href="#/">首页</a></li>
           <li class="glass light"><a href="#/function">功能</a></li>
-          <li class="glass light"><a href="#/share">分享</a></li>
+          <li class="glass light"><a href="#/help">分享</a></li>
           <li class="glass light"><a href="#/blogdisplay">博客</a></li>
           <li class="glass light"><a :href='"#/"+(isLogin?"center":"login")'>{{isLogin?"个人中心":"登录"}}</a></li>
         </ul>
@@ -58,7 +58,7 @@ body,html{
 }
 #app{
   height: 100%;
-  background-color: #e0f7fa;
+  background-color: #E0F7FA;
 }
 ul,li{
   margin: 0;
@@ -110,14 +110,14 @@ a{
   color:#666;
 }
 .nav .container ul li:hover{
-  background-color:rgb(200, 248, 241);
+  background-color:rgba(200, 248, 241);
 }
 .nav .container ul li:active{
   position:relative;
   top:10px;
 }
 .nav .container ul li.active{
-  background-color:rgb(148, 245, 212);
+  background-color:aquamarine;
 }
 
 .view{
@@ -133,7 +133,7 @@ input.el-input__inner{
     width:100%;
     height: 60px;
     font-size: 20px;
-    // border-radius: 15px;
+    border-radius: 15px;
     text-align: center;
     color:#666;
 

@@ -89,12 +89,6 @@ ul {
   padding: 0;
 }
 
-li {
-  margin-bottom: 1em;
-  padding: 1em;
-  border: 1px solid #ddd;
-}
-
 strong {
   display: inline-block;
   width: 100px;
