@@ -1,10 +1,7 @@
 <template>
   <div id="select_option">
     <h1>筛选条件</h1>
-    <el-form :model="selectform"  ref="myForm" label-width="120px">
-      <el-form-item>
-        <a class="glass light btn register-btn" @click="goToSavedSearchPage">景点选择</a>
-      </el-form-item>
+    <el-form :model="selectform" :rules="rules" ref="myForm" label-width="120px">
       <div class="centered-checkbox">
         <h3> <el-form-item label="性别：">
           <el-checkbox :checked="selectedSex[0]==1"  @change="handleSelection(0,0)">男</el-checkbox>
@@ -12,13 +9,15 @@
         </el-form-item></h3>
         </div>
 
-      <div class="centered-checkbox">
-          <h3> <el-form-item label="年龄段：">
-            <el-checkbox :checked="selectedAge[0]==1"  @change="handleSelection(1,0)">青年</el-checkbox>
-            <el-checkbox :checked="selectedAge[1]==1"  @change="handleSelection(1,1)">中年</el-checkbox>
-            <el-checkbox :checked="selectedAge[2]==1"  @change="handleSelection(1,2)">老年</el-checkbox>
-          </el-form-item></h3>
-       </div>
+
+      <h3> <el-form-item label="最小年龄" prop="minage">
+          <el-input v-model="selectform.minage"   />
+        </el-form-item>
+        <el-form-item label="最大年龄" prop="maxage">
+          <el-input v-model="selectform.maxage"   />
+        </el-form-item></h3>
+
+
 
       <div class="centered-checkbox">
         <h3> <el-form-item label="旅游爱好：">
@@ -57,8 +56,12 @@
       </div>
       <!-- 保存按钮 -->
       <el-form-item>
-        <a class="glass light btn register-btn" @click="saveForm">保存</a>
+        <a class="glass light btn register-btn" @click="saveForm">保存并进行景点选择</a>
       </el-form-item>
+      <el-form-item>
+        <a class="glass light btn register-btn"  @click="deleteform">重新筛选</a>
+      </el-form-item>
+
 <!--
       <p>test：{{ this.selectedSex}}</p>
       <p>test：{{ selectform.sex }}</p>
@@ -84,7 +87,8 @@ export default {
       selectform: {
         email: '',
         sex: '', // 性别
-        age: '', // 年龄段
+        minage: '', // 年龄段
+        maxage: '',
         interest: '',
         days:'',
        tickets:'',
@@ -94,9 +98,23 @@ export default {
       selectedInterest:new Array(8).fill(0),
       selectedDays:new Array(7).fill(0),
       selectedTickets:new Array(2).fill(0),
+      ageError: false,
+      rules: {
+        minage: [
+          { required: true, message: '请输入最小年龄' },
+          { type: 'number', message: '请输入有效的数字', trigger: 'blur' },
+
+        ],
+        maxage: [
+          { required: true, message: '请输入最大年龄', trigger: 'blur' },
+          { type: 'number', message: '请输入有效的数字', trigger: 'blur' },
+
+        ],
+      },
     }
   },
   methods: {
+
     handleSelection(option,index) {
       if(option== 0){
 
@@ -124,24 +142,22 @@ export default {
 
         }
     },
-    goToSavedSearchPage() {
-        this.$router.push({ name: 'Query' });
-      },
+    deleteform(){},
     saveForm() {
 
       this.selectform.email=$.cookie('userid');
       this.selectform.sex = this.selectedSex.join("");
-      this.selectform.age = this.selectedAge.join("");
+      /*this.selectform.age = this.selectedAge.join("");*/
       this.selectform.interest = this.selectedInterest.join("");
       this.selectform.days = this.selectedDays.join("");
       this.selectform.tickets = this.selectedTickets.join("");
       this.$refs['myForm'].validate(valid => {
-        if (valid) {
-          api.saveuserinfo(this.selectform, function (res) {
-          /*api.selectoption(this.selectform, function (res) {*/
-            if (res.status == 'y') {
-              this.$message.success("用户设置成功")
+        if ( !this.ageError ) {
 
+          api.selectoption(this.selectform, function (res) {
+            if (res.status == 'y') {
+              this.$message.success("筛选条件设置成功")
+              this.$router.push({ name: 'Query' });
             }
             else {
               this.$message.error(res.msg)
@@ -149,11 +165,12 @@ export default {
           }.bind(this))
         }
         else {
-          console.log('validate error!')
+          console.log('年龄输入有问题 !')
         }
       })
-      this.$router.push({ name: 'Function' });
-    }
+
+    },
+
   }
 }
 </script>

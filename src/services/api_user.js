@@ -72,6 +72,20 @@ export default {
       }
     });
   },
+  selectoption(data,callback) {
+    $.ajax({
+      url: `${global.ApiUrl}users/selectoption`,
+      data: JSON.stringify(data),
+      method: 'PUT',
+      contentType: 'application/json',
+      success: function(res) {
+        callback(res);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  },
   getDataById(id, callback) {
     $.ajax({
       url: `${global.ApiUrl}users/${id}`,
