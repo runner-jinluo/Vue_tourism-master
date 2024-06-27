@@ -12,6 +12,7 @@
               <p><strong>用户名:</strong> {{ log.usrId }}</p>
               <p><strong>日志内容:</strong> {{ log.logText }}</p>
               <p><strong>发表时间</strong> {{ log.time }}</p>
+              <br />
             </li>
           </ul>
         </div>
@@ -27,6 +28,7 @@
               <p><strong>发表时间:</strong> {{ guide.guide.time }}</p>
               <p><strong>路线ID:</strong> {{ guide.guide.routeId }}</p>
               <p><strong>路线内容:</strong> {{ guide.route.route }}</p>
+              <br />
             </li>
           </ul>
         </div>
