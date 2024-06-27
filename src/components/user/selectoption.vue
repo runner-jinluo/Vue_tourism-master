@@ -7,20 +7,20 @@
       </el-form-item>
       <div class="centered-checkbox">
         <h3> <el-form-item label="性别：">
-      <el-checkbox-group v-model="formData.sex">
+<!--      <el-checkbox-group v-model="formData.sex">-->
         <el-checkbox label="男">男</el-checkbox>
         <el-checkbox label="女">女</el-checkbox>
-      </el-checkbox-group>
+<!--      </el-checkbox-group>-->
         </el-form-item></h3>
         </div>
 
       <div class="centered-checkbox">
           <h3> <el-form-item label="年龄段：">
-        <el-checkbox-group v-model="formData.age">
+<!--        <el-checkbox-group v-model="formData.age">-->
           <el-checkbox label="young">青年</el-checkbox>
           <el-checkbox label="middle">中年</el-checkbox>
           <el-checkbox label="old">老年</el-checkbox>
-        </el-checkbox-group>
+<!--        </el-checkbox-group>-->
           </el-form-item></h3>
        </div>
 
@@ -43,7 +43,7 @@
 
       <div class="centered-checkbox">
       <h3> <el-form-item label="时间：">
-      <el-checkbox-group v-model="formData.selectedDays">
+<!--      <el-checkbox-group v-model="formData.selectedDays">-->
         <el-checkbox label="Monday">周一</el-checkbox>
         <el-checkbox label="Tuesday">周二</el-checkbox>
         <el-checkbox label="Wednesday">周三</el-checkbox>
@@ -51,16 +51,16 @@
         <el-checkbox label="Friday">周五</el-checkbox>
         <el-checkbox label="Saturday">周六</el-checkbox>
         <el-checkbox label="Sunday">周日</el-checkbox>
-      </el-checkbox-group>
+<!--      </el-checkbox-group>-->
       </el-form-item></h3>
       </div>
 
       <div class="centered-checkbox">
       <h3> <el-form-item label="门票：">
-      <el-checkbox-group v-model="formData.selectedTickets">
+<!--      <el-checkbox-group v-model="formData.selectedTickets">-->
         <el-checkbox label="yes">有</el-checkbox>
         <el-checkbox label="no">无</el-checkbox>
-      </el-checkbox-group>
+<!--      </el-checkbox-group>-->
       </el-form-item></h3>
       </div>
       <!-- 保存按钮 -->
@@ -70,6 +70,8 @@
 
 
       </el-form>
+
+
 
 
 
@@ -113,8 +115,12 @@ export default {
     goToSavedSearchPage() {
         this.$router.push({ name: 'Query' });
       },
-    saveInfo() {
-      // 这里可以添加保存信息的代码，例如保存用户的选择
+    saveForm() {
+
+
+
+
+      this.$router.push({ name: 'Function' });
     }
   }
 }
