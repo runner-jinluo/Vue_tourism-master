@@ -13,7 +13,6 @@
         <p>test：{{ interest1 }}</p>
         <p>test：{{ formData.interest }}</p>
 -->
-
       </div>
       <a class="glass light btn register-btn" @click="modify()">去修改</a>
     </div>

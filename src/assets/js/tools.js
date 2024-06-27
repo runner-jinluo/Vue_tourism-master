@@ -7,7 +7,7 @@ export default {
 
       console.log(`Total requests to be made: ${totalRequests}`); // 调试信息
 
-      const searchComplete = function (results) {
+      const searchComplete = function (results, startPoint, endPoint) {
         console.log('Search complete callback called'); // 调试信息
         console.log('Search results:', results); // 调试信息
 
@@ -16,12 +16,14 @@ export default {
           const origin = route.origin;
           const destination = route.destination;
 
-          // 更宽松的比较方法
+          console.log(`Comparing coordinates - Requested: (${startPoint.lat}, ${startPoint.lng}), Returned: (${origin.lat}, ${origin.lng})`);
+          console.log(`Comparing coordinates - Requested: (${endPoint.lat}, ${endPoint.lng}), Returned: (${destination.lat}, ${destination.lng})`);
+
           let startIndex = arr.findIndex(item =>
-            Math.abs(item.point.lat - origin.lat) < 0.001 && Math.abs(item.point.lng - origin.lng) < 0.001
+            Math.abs(item.point.lat - origin.lat) < 0.01 && Math.abs(item.point.lng - origin.lng) < 0.01
           );
           let endIndex = arr.findIndex(item =>
-            Math.abs(item.point.lat - destination.lat) < 0.001 && Math.abs(item.point.lng - destination.lng) < 0.001
+            Math.abs(item.point.lat - destination.lat) < 0.01 && Math.abs(item.point.lng - destination.lng) < 0.01
           );
 
           console.log(`Start index: ${startIndex}, End index: ${endIndex}`); // 调试信息
@@ -42,9 +44,11 @@ export default {
             }
           } else {
             console.error('Start or end index not found:', { startIndex, endIndex, results });
+            reject(new Error('Start or end index not found'));
           }
         } else {
           console.error('Search results are incomplete or undefined:', results);
+          reject(new Error('Search results are incomplete or undefined'));
         }
       };
 
@@ -52,19 +56,35 @@ export default {
         const ak = '9meC5OvILgdn1tpQltPdxWKLEU6DBEQ2';
         const origin = `${startPoint.lat},${startPoint.lng}`;
         const destination = `${endPoint.lat},${endPoint.lng}`;
-        const url = `https://api.map.baidu.com/direction/v2/driving?origin=${origin}&destination=${destination}&ak=${ak}`;
+        const callbackFunction = `jsonpCallback_${Date.now()}_${Math.random().toString(36).substring(2)}`;
+        const url = `https://api.map.baidu.com/direction/v2/driving?origin=${origin}&destination=${destination}&ak=${ak}&callback=${callbackFunction}`;
 
         console.log(`Request URL: ${url}`); // 调试信息
+        console.log(`Requesting route from (${startPoint.lat}, ${startPoint.lng}) to (${endPoint.lat}, ${endPoint.lng})`); // 调试信息
 
-        jsonp(url).then(data => {
+        window[callbackFunction] = function (data) {
           if (data && data.result) {
-            searchComplete(data.result);
+            searchComplete(data.result, startPoint, endPoint);
           } else {
             console.error('Invalid JSONP response:', data); // 调试信息
+            reject(new Error('Invalid JSONP response'));
           }
-        }).catch(error => {
-          console.error('Error fetching data:', error); // 调试信息
-        });
+          delete window[callbackFunction];
+        };
+
+        const script = document.createElement('script');
+        script.src = url;
+        script.onerror = (error) => {
+          console.error('Script load error:', error); // 调试信息
+          delete window[callbackFunction];
+          document.body.removeChild(script);
+          reject(error);
+        };
+        script.onload = () => {
+          console.log(`Script loaded successfully: ${script.src}`); // 调试信息
+        };
+        console.log(`Appending script with URL: ${script.src}`); // 调试信息
+        document.body.appendChild(script);
       };
 
       arr.forEach((start, i) => {
@@ -79,26 +99,6 @@ export default {
       });
     });
   }
-}
-
-function jsonp(url) {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    const callbackFunction = `jsonpCallback_${Date.now()}`;
-    window[callbackFunction] = (data) => {
-      resolve(data);
-      delete window[callbackFunction];
-      document.body.removeChild(script);
-    };
-    script.src = `${url}&callback=${callbackFunction}`;
-    script.onerror = (error) => {
-      console.error('Script load error:', error); // 新的调试信息
-      reject(error);
-      document.body.removeChild(script);
-    };
-    console.log(`Appending script with URL: ${script.src}`); // 调试信息
-    document.body.appendChild(script);
-  });
 }
 
 // 示例用法
