@@ -9,51 +9,52 @@
         <p>姓名：{{ formData.name }}</p>
         <p>联系方式：{{ formData.phoneNumber }}</p>
         <p>旅游爱好：{{ (interest1[0]==1)? hobbies[0]: null}} {{ (interest1[1]==1)? hobbies[1]: null}} {{ (interest1[2]==1)? hobbies[2]: null}} {{ (interest1[3]==1)? hobbies[3]: null}} {{ (interest1[4]==1)? hobbies[4]: null}} {{ (interest1[5]==1)? hobbies[5]: null}} {{ (interest1[6]==1)? hobbies[6]: null}} {{ (interest1[7]==1)? hobbies[7]: null}}</p>
-<!--
-        <p>test：{{ interest1 }}</p>
-        <p>test：{{ formData.interest }}</p>
--->
+        <!--
+                <p>test：{{ interest1 }}</p>
+                <p>test：{{ formData.interest }}</p>
+        -->
 
       </div>
       <a class="glass light btn register-btn" @click="modify()">去修改</a>
     </div>
-      <div v-if="!showSavedData">
-        <el-form :model="formData" :rules="rules" ref="myForm" label-width="120px">
+    <div v-if="!showSavedData">
+      <el-form :model="formData" :rules="rules" ref="myForm" label-width="120px">
+<!--        <p>test：{{ interest1 }}</p>
+        <p>test：{{ formData.interest }}</p>-->
+        <el-form-item label="性别">
+          <el-radio v-model="formData.sex" label="男">男</el-radio>
+          <el-radio v-model="formData.sex" label="女">女</el-radio>
+        </el-form-item>
+        <el-form-item label="年龄">
+          <el-input input class="my-input" v-model="formData.age"></el-input>
+        </el-form-item>
+        <el-form-item label="姓名">
+          <el-input input class="my-input" v-model="formData.name"></el-input>
+        </el-form-item>
+        <el-form-item label="联系方式" prop="contact">
+          <el-input input class="my-input" v-model="formData.phoneNumber" type="number"></el-input>
+        </el-form-item>
 
-          <el-form-item label="性别">
-            <el-radio v-model="formData.sex" label="男">男</el-radio>
-            <el-radio v-model="formData.sex" label="女">女</el-radio>
-          </el-form-item>
-          <el-form-item label="年龄">
-            <el-input input class="my-input" v-model="formData.age"></el-input>
-          </el-form-item>
-          <el-form-item label="姓名">
-            <el-input input class="my-input" v-model="formData.name"></el-input>
-          </el-form-item>
-          <el-form-item label="联系方式" prop="contact">
-            <el-input input class="my-input" v-model="formData.phoneNumber" type="number"></el-input>
-          </el-form-item>
 
-
-          <div class="centered-checkbox">
+        <div class="centered-checkbox">
           <el-form-item label="旅游爱好">
-<!--            <el-checkbox-group v-model="formData.interest">-->
-              <el-checkbox :checked="selectedInterest[0]==true"  @change="handleInterestSelection(0)">徒步旅行</el-checkbox>
-              <el-checkbox :checked="selectedInterest[1]==true" @change="handleInterestSelection(1)">文化探索</el-checkbox>
-              <el-checkbox :checked="selectedInterest[2]==true" @change="handleInterestSelection(2)">美食之旅</el-checkbox>
-              <el-checkbox :checked="selectedInterest[3]==true" @change="handleInterestSelection(3)">冒险运动</el-checkbox>
-              <el-checkbox :checked="selectedInterest[4]==true" @change="handleInterestSelection(4)">海滩度假</el-checkbox>
-              <el-checkbox :checked="selectedInterest[5]==true" @change="handleInterestSelection(5)">城市探险</el-checkbox>
-              <el-checkbox :checked="selectedInterest[6]==true" @change="handleInterestSelection(6)">自驾游</el-checkbox>
-              <el-checkbox :checked="selectedInterest[7]==true" @change="handleInterestSelection(7)">摄影</el-checkbox>
-<!--            </el-checkbox-group>-->
+            <!--            <el-checkbox-group v-model="formData.interest">-->
+            <el-checkbox :checked="selectedInterest[0]==true"  @change="handleInterestSelection(0)">徒步旅行</el-checkbox>
+            <el-checkbox :checked="selectedInterest[1]==true" @change="handleInterestSelection(1)">文化探索</el-checkbox>
+            <el-checkbox :checked="selectedInterest[2]==true" @change="handleInterestSelection(2)">美食之旅</el-checkbox>
+            <el-checkbox :checked="selectedInterest[3]==true" @change="handleInterestSelection(3)">冒险运动</el-checkbox>
+            <el-checkbox :checked="selectedInterest[4]==true" @change="handleInterestSelection(4)">海滩度假</el-checkbox>
+            <el-checkbox :checked="selectedInterest[5]==true" @change="handleInterestSelection(5)">城市探险</el-checkbox>
+            <el-checkbox :checked="selectedInterest[6]==true" @change="handleInterestSelection(6)">自驾游</el-checkbox>
+            <el-checkbox :checked="selectedInterest[7]==true" @change="handleInterestSelection(7)">摄影</el-checkbox>
+            <!--            </el-checkbox-group>-->
           </el-form-item>
-          </div>
-          <el-form-item>
-            <a class="glass light btn register-btn" @click="saveForm">保存</a>
-          </el-form-item>
-        </el-form>
-      </div>
+        </div>
+        <el-form-item>
+          <a class="glass light btn register-btn" @click="saveForm">保存</a>
+        </el-form-item>
+      </el-form>
+    </div>
 
   </div>
 
@@ -148,10 +149,10 @@ export default {
         this.interest1[index] = '1'; // 设置为选中状态
         this.selectedInterest[index]=true;
       }
-       else
-        {
-          this.interest1[index] = '0';
-          this.selectedInterest[index]=false;
+      else
+      {
+        this.interest1[index] = '0';
+        this.selectedInterest[index]=false;
       }
     },
 
