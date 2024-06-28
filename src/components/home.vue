@@ -57,22 +57,38 @@ export default {
        this.$router.push('/login');
     },
     goToSelectoption() {
+      if(!$.cookie('userid')){
+        this.$message('请先登录')
+        this.$router.push({name:'Login'})
+      }
+      else{
       // 前往登录页面
       console.log('队友选择');
       // 在这里执行跳转逻辑，例如使用路由导航
-      this.$router.push('/Selectoption');
+      this.$router.push('/Selectoption');}
     },
     goToQuery() {
+      if(!$.cookie('userid')){
+        this.$message('请先登录')
+        this.$router.push({name:'Login'})
+      }
+      else{
       // 前往登录页面
       console.log('前往登录页面');
       // 在这里执行跳转逻辑，例如使用路由导航
-      this.$router.push('/query');
+      this.$router.push('/query');}
     },
     goToPlan() {
       // 前往登录页面
+      if(!$.cookie('userid')){
+        this.$message('请先登录')
+        this.$router.push({name:'Login'})
+      }
+      else
+        this.$router.push('/plan');
       console.log('前往登录页面');
       // 在这里执行跳转逻辑，例如使用路由导航
-      this.$router.push('/plan');
+
     },
     logout:function(){
       $.cookie('userid','',{path:'/',expires:-1})

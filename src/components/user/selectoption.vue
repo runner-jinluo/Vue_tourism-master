@@ -3,6 +3,7 @@
     <!-- 左半部分：筛选条件表单 -->
     <div style="flex: 1; padding: 10px; overflow-y: auto;">
     <h1>筛选条件</h1>
+      <div style="margin-top: 50px;">
     <el-form :model="selectform" :rules="rules" ref="myForm" label-width="120px">
       <div class="centered-checkbox">
         <h3> <el-form-item label="性别：">
@@ -24,12 +25,12 @@
 
           <el-checkbox :checked="selectedInterest[0]==1"  @change="handleSelection(2,0)">徒步旅行</el-checkbox>
           <el-checkbox :checked="selectedInterest[1]==1" @change="handleSelection(2,1)">文化探索</el-checkbox>
-          <el-checkbox :checked="selectedInterest[2]==1" @change="handleSelection(2,2)">美食之旅</el-checkbox>
+          <el-checkbox :checked="selectedInterest[2]==1" @change="handleSelection(2,2)">食之旅</el-checkbox>
           <el-checkbox :checked="selectedInterest[3]==1" @change="handleSelection(2,3)">冒险运动</el-checkbox>
           <el-checkbox :checked="selectedInterest[4]==1" @change="handleSelection(2,4)">海滩度假</el-checkbox>
-          <el-checkbox :checked="selectedInterest[5]==1" @change="handleSelection(2,5)">城市探险</el-checkbox>
-          <el-checkbox :checked="selectedInterest[6]==1" @change="handleSelection(2,6)">自驾游</el-checkbox>
-          <el-checkbox :checked="selectedInterest[7]==1" @change="handleSelection(2,7)">摄影</el-checkbox>
+          <el-checkbox :checked="selectedInterest[5]==1" @change="handleSelection(2,5)">都市游</el-checkbox>
+          <el-checkbox :checked="selectedInterest[6]==1" @change="handleSelection(2,6)">自驾出行</el-checkbox>
+          <el-checkbox :checked="selectedInterest[7]==1" @change="handleSelection(2,7)">摄影旅行</el-checkbox>
 
         </el-form-item></h3>
       </div>
@@ -42,6 +43,7 @@
         <el-checkbox :checked="selectedDays[1]==1"  @change="handleSelection(3,1)">周二</el-checkbox>
         <el-checkbox :checked="selectedDays[2]==1"  @change="handleSelection(3,2)">周三</el-checkbox>
         <el-checkbox :checked="selectedDays[3]==1"  @change="handleSelection(3,3)">周四</el-checkbox>
+        <br />
         <el-checkbox :checked="selectedDays[4]==1"  @change="handleSelection(3,4)">周五</el-checkbox>
         <el-checkbox :checked="selectedDays[5]==1"  @change="handleSelection(3,5)">周六</el-checkbox>
         <el-checkbox :checked="selectedDays[6]==1"  @change="handleSelection(3,6)">周日</el-checkbox>
@@ -56,7 +58,7 @@
       </div>
       <!-- 保存按钮 -->
       <el-form-item>
-        <a class="glass light btn register-btn" @click="saveForm1">保存</a>
+        <a class="glass light btn register-btn" @click="saveForm1">推荐景点</a>
       </el-form-item>
       <el-form-item>
         <a class="glass light btn register-btn" @click="RE_select">重新选择</a>
@@ -69,6 +71,7 @@
 -->
 
       </el-form>
+        </div>
   </div>
     <!-- 右半部分：显示筛选后的队友信息 -->
     <div style="flex: 1; padding: 10px; border-left: 1px solid #ddd;">
@@ -235,10 +238,11 @@ export default {
 
 
 <style scoped>
+
 h1 {
   text-align: center;
-  margin-top: 5px; /* 调整上边距 */
-  margin-bottom: 5px; /* 调整下边距 */
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 input.el-input__inner {
