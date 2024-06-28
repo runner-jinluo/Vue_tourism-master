@@ -74,7 +74,7 @@ export default {
   },
   selectoption(data,callback) {
     $.ajax({
-      url: `${global.ApiUrl}users/selectoption`,
+      url: `${global.ApiUrl}select/selectoption`,
       data: JSON.stringify(data),
       method: 'PUT',
       contentType: 'application/json',
@@ -86,6 +86,21 @@ export default {
       }
     });
   },
+  deleteAttraction(data, callback) {
+    $.ajax({
+      url: `${global.ApiUrl}select/${data}`,
+      data: JSON.stringify(data),
+      method: 'POST',
+      contentType: 'application/json',
+      success: function(res) {
+        callback(res);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  },
+
   getDataById(id, callback) {
     $.ajax({
       url: `${global.ApiUrl}users/${id}`,

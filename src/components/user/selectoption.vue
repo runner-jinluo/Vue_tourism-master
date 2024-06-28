@@ -57,7 +57,7 @@
         <a class="glass light btn register-btn" @click="saveForm">保存</a>
       </el-form-item>
       <el-form-item>
-        <a class="glass light btn register-btn" @click="jump">景点选择</a>
+        <a class="glass light btn register-btn" @click="RE_select">重新选择</a>
       </el-form-item>
 
 
@@ -154,8 +154,8 @@ export default {
         if (!this.isMinAgeLessThanMaxAge) {
 
           api.selectoption(this.selectform, function (res) {
-            if (res.status == 'y') {
-              this.$message.success("筛选条件设置成功")
+            if (res.email&&res) {
+             /* this.$message.success("筛选条件设置成功")*/
               this.$router.push({ name: 'Query' });
             }
             else {
@@ -169,8 +169,18 @@ export default {
       })
 
     },
-    jump(){
-      this.$router.push({ name: 'Query' });
+    RE_select(){
+
+      api.deleteAttraction($.cookie('userid'), function (res){
+        if (res.email&&res) {
+          console.log('删除成功 !')
+         /* window.location.reload();*/
+        }
+        else {
+          console.log('删除失败')
+          this.$message.error(res)
+        }
+      }.bind(this))
     }
 
   },
