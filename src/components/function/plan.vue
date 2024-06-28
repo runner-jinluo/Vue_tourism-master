@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     goToReview() {
-      this.$router.push({ name: 'Review' });
+      this.$router.push({ name: 'Help' });
     },
     async getAttractions() {
       const userId = $.cookie('userid'); // 获取用户ID
@@ -221,20 +221,22 @@ export default {
       }
     },
     savePlan() {
+      // 提取plan数组中的title字段
+      const titles = this.plan.map(item => item.title);
       var data = {
-        route: JSON.stringify(this.plan),
-        cost: this.bestTime,
-        eachCost: JSON.stringify(this.bestDistance),
-        userid: $.cookie('userid'),
-        SeE: this.SeE
-      }
+        route: titles, // 将提取的title数组转换为字符串
+        // cost: this.bestTime,
+        // eachCost: JSON.stringify(this.bestDistance), // 将bestDistance数组转换为字符串
+        // userid: $.cookie('userid'),
+        // SeE: this.SeE
+      };
       api_plan.save(data, function (res) {
-        if (res.status == 'y') {
-          this.$message.success("路线保存成功")
+        if (res.success) {
+          alert('Saved plan successfully');
         } else {
-          this.$message("路线保存失败")
+          //this.$message("路线保存失败");
         }
-      }.bind(this))
+      }.bind(this));
     }
   },
   created() {

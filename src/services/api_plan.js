@@ -5,20 +5,21 @@
  * 请求成功的回调函数 callback
  */
 export default {
-    save(data,callback){
-        $.ajax({
-            url:`${global.ApiUrl}plans`,
-            data:data,
-            method:'post',
-            success:function(res){
-                // console.log(res)
-                callback(res)
-            },
-            error:function(err){
-                console.log(err)
-            }
-        })
-    },
+  save(data, callback) {
+    $.ajax({
+      url: `${global.ApiUrl}routes/saveroute`,
+      data: JSON.stringify(data), // 将 data 序列化为 JSON 字符串
+      method: 'POST',
+      contentType: 'application/json', // 设置 Content-Type 为 application/json
+      success: function(res) {
+        // console.log(res)
+        callback(res);
+      },
+      error: function(err) {
+        console.log(err);
+      }
+    });
+  },
     getData(id,callback){
         $.ajax({
             url:`${global.ApiUrl}plans/get_data`,

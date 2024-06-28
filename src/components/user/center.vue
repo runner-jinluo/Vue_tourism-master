@@ -2,7 +2,7 @@
     <div id="user">
         <div class="glass user-div">
             <h1>email:  {{userId}}</h1>
-            <a class="glass light btn check-btn" href="#/check">查看保存的路线数据</a>
+            <a class="glass light btn check-btn" href="#/personal">查看个人信息</a>
             <a class="glass light btn"  @click="logout">退出登录</a>
         </div>
     </div>
