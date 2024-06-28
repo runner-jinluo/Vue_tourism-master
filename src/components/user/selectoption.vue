@@ -1,5 +1,7 @@
 <template>
-  <div id="select_option">
+  <div id="select_option" style="display: flex; height: 100vh;">
+    <!-- 左半部分：筛选条件表单 -->
+    <div style="flex: 1; padding: 10px; overflow-y: auto;">
     <h1>筛选条件</h1>
     <el-form :model="selectform" :rules="rules" ref="myForm" label-width="120px">
       <div class="centered-checkbox">
@@ -54,7 +56,7 @@
       </div>
       <!-- 保存按钮 -->
       <el-form-item>
-        <a class="glass light btn register-btn" @click="saveForm">保存</a>
+        <a class="glass light btn register-btn" @click="saveForm1">保存</a>
       </el-form-item>
       <el-form-item>
         <a class="glass light btn register-btn" @click="RE_select">重新选择</a>
@@ -67,14 +69,28 @@
 -->
 
       </el-form>
-
-
-
-
-
-
-
   </div>
+    <!-- 右半部分：显示筛选后的队友信息 -->
+    <div style="flex: 1; padding: 10px; border-left: 1px solid #ddd;">
+      <h1>筛选队友结果</h1>
+
+      <div style="overflow-y: auto; max-height: calc(100vh - 50px);">
+        <div v-for="(user, index) in matchedUsers" :key="index" style="margin-bottom: 15px; border-bottom: 1px solid #ccc; padding-bottom: 10px;">
+          <p><strong>队友{{ index + 1 }}：</strong></p>
+          <p><strong>姓名：</strong>{{ user.name }}</p>
+          <p><strong>年龄：</strong>{{ user.age }}</p>
+          <p><strong>联系方式：</strong>{{ user.phoneNumber }}</p>
+          <p><strong>爱好：</strong>{{ user.commonInterests }}</p>
+        </div>
+      </div>
+      <el-form>
+        <el-form-item>
+          <a class="glass light btn register-btn" @click="saveForm2">显示筛选结果</a>
+        </el-form-item>
+      </el-form>
+    </div>
+    </div>
+
 </template>
 
 <script>
@@ -106,11 +122,10 @@ export default {
         ],
         maxage: [
           { required: true, message: '请输入最大年龄', trigger: 'blur' },
-
-
         ],
       },
-    }
+      matchedUsers:[]
+    };
   },
   methods: {
 
@@ -141,10 +156,7 @@ export default {
 
         }
     },
-    saveForm:function () {
-      this.saveForm1();
-      this.saveForm2();
-    },
+
     saveForm1() {
 
       this.selectform.email=$.cookie('userid');
@@ -168,6 +180,27 @@ export default {
         }
         else {
           console.log('年龄输入有问题 !')
+        }
+      })
+
+    },
+    saveForm2() {
+      console.log('saveForm2');
+
+      this.selectform.email=$.cookie('userid');
+      this.selectform.sex = this.selectedSex.join("");
+
+      this.selectform.interest = this.selectedInterest.join("");
+      this.selectform.days = this.selectedDays.join("");
+      this.selectform.tickets = this.selectedTickets.join("");
+      this.$refs['myForm'].validate(valid => {
+        if (!this.isMinAgeLessThanMaxAge) {
+          api.selectoption(this.selectform, (res) =>{
+            this.matchedUsers = res;
+          });
+        }else {
+          console.log('输入不合规 !')
+          return false;
         }
       })
 

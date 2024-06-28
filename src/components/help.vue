@@ -19,7 +19,7 @@
         <label for="routeId">攻略对应路线:</label>
         <select v-model="guide.routeId" id="routeId" required>
           <option v-for="route in routes" :key="route.id" :value="route.id">
-            {{ route.id }}
+            {{ route.route }}
           </option>
         </select>
       </div>

@@ -121,7 +121,7 @@ export default {
     },
     goToSavedSearchPage() {
       console.log("goToSavedSearchPage called"); // 调试信息
-      this.$router.push({ name: 'Displayteam' });
+      this.$router.push({ name: 'Plan' });
     },
     getCoordinates(event) {
       console.log("getCoordinates called with event:", event); // 调试信息
