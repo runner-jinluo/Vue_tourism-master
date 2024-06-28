@@ -141,8 +141,11 @@ export default {
 
         }
     },
-
-    saveForm() {
+    saveForm:function () {
+      this.saveForm1();
+      this.saveForm2();
+    },
+    saveForm1() {
 
       this.selectform.email=$.cookie('userid');
       this.selectform.sex = this.selectedSex.join("");
@@ -153,9 +156,9 @@ export default {
       this.$refs['myForm'].validate(valid => {
         if (!this.isMinAgeLessThanMaxAge) {
 
-          api.selectoption(this.selectform, function (res) {
+          api.selectoption1(this.selectform, function (res) {
             if (res.email&&res) {
-             /* this.$message.success("筛选条件设置成功")*/
+              this.$message.success("筛选条件设置成功")
               this.$router.push({ name: 'Query' });
             }
             else {
@@ -173,6 +176,7 @@ export default {
 
       api.deleteAttraction($.cookie('userid'), function (res){
         if (res.email&&res) {
+          this.$message('删除成功')
           console.log('删除成功 !')
          /* window.location.reload();*/
         }

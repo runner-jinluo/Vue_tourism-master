@@ -122,6 +122,7 @@ export default {
       }.bind(this))
 
     },
+
     saveForm: function () {
       this.showSavedData=true;
       this.formData.interest = this.interest1.join("");
@@ -129,9 +130,9 @@ export default {
       this.$refs['myForm'].validate(valid => {
         if (valid) {
           api.saveuserinfo(this.formData, function (res) {
-            if (res.status == 'y') {
-              this.$message.success("用户修改成功")
-              this.$router.push({ name: 'Function' })
+            if (res.email&&res) {
+              this.$message.success("用户保存成功")
+             /* this.$router.push({ name: 'Function' })*/
             }
             else {
               this.$message.error(res.msg)

@@ -72,7 +72,7 @@ export default {
       }
     });
   },
-  selectoption(data,callback) {
+  selectoption1(data,callback) {
     $.ajax({
       url: `${global.ApiUrl}select/selectoption`,
       data: JSON.stringify(data),

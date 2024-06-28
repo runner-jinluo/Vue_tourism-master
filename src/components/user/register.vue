@@ -59,7 +59,7 @@
                     if (valid) {
                         api.register(this.user, function (res) {
                             if (res&&res.email) {
-                               /* this.$message.success("用户注册成功")*/
+                                this.$message.success("用户注册成功")
                                 this.$router.push({ name: 'Login' })
                             }
                             else {
